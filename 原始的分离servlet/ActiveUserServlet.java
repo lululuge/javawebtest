@@ -16,7 +16,7 @@ public class ActiveUserServlet extends HttpServlet {
         // 获取用户的激活码
         String code = request.getParameter("code");
         if (code != null) {
-            // 调用service，根据激活码锁定唯一user对象,然后修改其status为Y
+            // 调用service，进行激活，根据激活码锁定唯一user对象,然后修改其status为Y
             UserService service = new UserServiceImpl();
             boolean flag = service.active(code);
             // 判断是否激活成功

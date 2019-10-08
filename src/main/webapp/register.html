@@ -141,7 +141,7 @@
 				$("#registerForm").submit(function () {
 					if (checkUsername() && checkPassword() && checkEmail() && checkName() && checkTelephone() && checkBirthday() && checkCheckCode()) {
 						// 利用ajax异步请求来提交页面
-						$.get("registUserServlet", $(this).serialize(), function (data) {
+						$.get("user/regist", $(this).serialize(), function (data) {
 							// 处理服务器的返回数据
                             if (data.flag) {
                                 // 注册成功,跳转到注册成功页面

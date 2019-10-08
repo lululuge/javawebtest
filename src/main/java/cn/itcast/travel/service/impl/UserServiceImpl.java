@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
             dao.save(user);
             // 发送邮件
             MailUtils.sendMail("18736791805@163.com",
-                    "<a href='http://localhost:8080/activeUserServlet?code="+user.getCode()+"'>点击激活【黑马旅游网】</a>",
+                    "<a href='http://localhost:8080/user/active?code="+user.getCode()+"'>点击激活【黑马旅游网】</a>",
                     "激活邮件");
             return true;
         }
@@ -57,5 +57,16 @@ public class UserServiceImpl implements UserService {
             return false;
         }
 
+    }
+
+    /**
+     * 用户登录
+     * @param loginUser
+     * @return
+     */
+    @Override
+    public User login(User loginUser) {
+        User user = dao.findUserByUsernameAndPassword(loginUser.getUsername(), loginUser.getPassword());
+        return user;
     }
 }

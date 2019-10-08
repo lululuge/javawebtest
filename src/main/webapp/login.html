@@ -18,6 +18,85 @@
     <script src="js/angular.min.js"></script>
 	<!--导入jquery-->
 	<script src="js/jquery-3.3.1.js"></script>
+	<script>
+		/**
+		 * 校验用户名和密码
+		 */
+		// 校验用户名方法
+		function checkUsername() {
+			// 获取用户名
+			var username = $("#username").val();
+			// 定义正则表达式
+			var reg_username = /^\w{8,20}$/;
+			// 判断并给出提示信息
+			var flag = reg_username.test(username);
+
+			if (flag) {
+				// 用户名合法
+				$("#username").css("border", "");
+			}
+			else {
+				// 用户名非法
+				$("#username").css("border", "1px solid red");
+			}
+			return flag;
+		}
+
+		// 校验密码
+		function checkPassword() {
+			// 获取密码
+			var username = $("#password").val();
+			// 定义正则表达式
+			var reg_username = /^\w{8,20}$/;
+			// 判断并给出提示信息
+			var flag = reg_username.test(username);
+
+			if (flag) {
+				// 密码合法
+				$("#password").css("border", "");
+			}
+			else {
+				// 密码非法
+				$("#password").css("border", "1px solid red");
+			}
+			return flag;
+		}
+
+		// 校验验证码
+		function checkCheckCode() {
+			var checkCode = $("#check").val();
+			var flag;
+			if (checkCode.length > 0) {
+				flag = true;
+				$("#check").css("border", "");
+			}
+			else {
+				flag = false;
+				$("#check").css("border", "1px solid red");
+			}
+			return flag;
+		}
+
+		$(function () {
+			// $("#username").blur(checkUsername);
+			// $("#password").blur(checkPassword);
+			// $("#check").blur(checkCheckCode);
+
+			$("#btn_login").click(function () {
+				// 发送ajax请求，提交表单数据
+				$.post("user/login", $("#loginForm").serialize(), function (data) {
+					if (!data.flag) {
+						// 登录失败，显示错误信息
+						$("#errorMsg").html(data.errorMsg);
+					}
+					else {
+						// 登录成功
+						location.href = "index.html";
+					}
+				});
+			});
+		});
+	</script>
 </head>
 
 <body>
@@ -39,10 +118,10 @@
         		<div id="errorMsg" class="alert alert-danger" ></div>
 				<form id="loginForm" action="" method="post" accept-charset="utf-8">
         			<input type="hidden" name="action" value="login"/>
-					<input name="username" type="text" placeholder="请输入账号" autocomplete="off">
-        			<input name="password" type="text" placeholder="请输入密码" autocomplete="off">
+					<input name="username" type="text" placeholder="请输入账号" autocomplete="off" id="username">
+        			<input name="password" type="password" placeholder="请输入密码" autocomplete="off" id="password">
         			<div class="verify">
-					<input name="check" type="text" placeholder="请输入验证码" autocomplete="off">
+					<input name="check" type="text" placeholder="请输入验证码" autocomplete="off" id="check">
 					<span><img src="checkCode" alt="" onclick="changeCheckCode(this)"></span>
 					<script type="text/javascript">
 						//图片点击事件
@@ -50,9 +129,9 @@
 							img.src="checkCode?"+new Date().getTime();
 						}
 					</script>
-			</div>
-			<div class="submit_btn">
-        				<button type="button">登录</button>
+					</div>
+					<div class="submit_btn">
+        				<button type="button" id="btn_login">登录</button>
         				<div class="auto_login">
         					<input type="checkbox" name="" class="checkbox">
         					<span>自动登录</span>
