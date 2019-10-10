@@ -31,12 +31,8 @@ public class BaseServlet extends HttpServlet {
             Method method = this.getClass().getMethod(methodName, HttpServletRequest.class, HttpServletResponse.class); // this即userServlet
             // 4.执行方法
             method.invoke(this, req, resp);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            //e.printStackTrace();
         }
 
     }

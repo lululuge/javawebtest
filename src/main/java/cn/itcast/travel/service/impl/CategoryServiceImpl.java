@@ -6,6 +6,7 @@ import cn.itcast.travel.domain.Category;
 import cn.itcast.travel.service.CategoryService;
 import cn.itcast.travel.util.JedisUtil;
 import redis.clients.jedis.Jedis;
+import redis.clients.jedis.Tuple;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.Set;
 
 public class CategoryServiceImpl implements CategoryService {
     // 创建CategoryDao对象
-    CategoryDao dao = new CategoryDaoImpl();
+    private CategoryDao dao = new CategoryDaoImpl();
 
     /**
      * 查询所有分类条目
@@ -21,12 +22,14 @@ public class CategoryServiceImpl implements CategoryService {
      */
     @Override
     public List<Category> findAll() {
-        // 从redis中查询
+        /*// 从redis中查询
         // 获取jedis客户端
         Jedis jedis = JedisUtil.getJedis();
         List<Category> list = null;
-        // 使用sortedSet排序查询
-        Set<String> set = jedis.zrange("category", 0, -1);
+//        // 使用sortedSet排序查询
+//        Set<String> set = jedis.zrange("category", 0, -1); // 该方法只能查询到字符串格式的value
+        // 改用另一种查询方法，可将value和score封装为tuple并查询到
+        Set<Tuple> set = jedis.zrangeWithScores("category", 0, -1);
         // 判断是否为空
         if (set == null || set.size() == 0) {
             System.out.println("从数据库查询");
@@ -43,12 +46,14 @@ public class CategoryServiceImpl implements CategoryService {
             // redis中存在，直接从redis中查询
             // 需要将set转为list
             list = new ArrayList<Category>();
-            for (String name : set) {
+            for (Tuple tuple : set) {
                 Category category = new Category();
-                category.setCname(name);
+                category.setCname(tuple.getElement());
+                category.setCid((int) tuple.getScore()); // 将double类型强转为int
                 list.add(category);
             }
         }
-        return list;
+        return list;*/
+        return dao.findAll();
     }
 }

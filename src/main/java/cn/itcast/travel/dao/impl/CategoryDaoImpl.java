@@ -17,13 +17,7 @@ public class CategoryDaoImpl implements CategoryDao {
      */
     @Override
     public List<Category> findAll() {
-        try {
-            String sql = "select * from tab_category";
-            return template.query(sql, new BeanPropertyRowMapper<Category>(Category.class));
-        } catch (Exception e) {
-            // 不打印错误信息
-        }
-        // 查询不到，返回null
-        return null;
+        String sql = "select * from tab_category";
+        return template.query(sql, new BeanPropertyRowMapper<Category>(Category.class));
     }
 }

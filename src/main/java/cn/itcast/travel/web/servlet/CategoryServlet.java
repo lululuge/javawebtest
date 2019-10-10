@@ -23,8 +23,4 @@ public class CategoryServlet extends BaseServlet {
         // 将list序列化为json对象并发送到客户端
         writeValue(list, response);
     }
-
-    public void Post(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
-    }
 }
